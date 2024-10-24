@@ -1,0 +1,24 @@
+.stil-tabel{
+    border: 1.5px solid black;
+    border-width: 1.5px;
+    border-style: solid;
+    border-color: gray;
+}
+td:nth-child(2n){
+    color: red;
+}
+td:nth-child(2n+1){
+    color: blue;
+}
+tr:nth-child(2n){
+    background-color: rgb(229, 240, 168);
+}
+tr:nth-child(2n+1){
+    background-color: rgb(236, 178, 178);
+}
+thead th{
+    background-color: gray;
+}
+thead th {
+    color: white; 
+}

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Canvas Example</title>
+    </head>
+    <body>
+        <canvas style="border:2px solid black" width="1000" height="1000"></canvas>
+        <table>
+            <tr>
+                <td><button type="button" id="plusdx">+dx</button></td>
+                <td><button type="button" id="minusdy">-dy</button></td>
+            </tr>
+            <tr>
+                <td><button type="button" id="minusdx">-dx</button></td>
+                <td><button type="button" id="plusdy">+dy</button></td>
+            </tr>
+        </table>
+        <script>
+            const myCanvas = document.getElementsByTagName("canvas")[0];
+            const ctx = myCanvas.getContext("2d");
+            ctx.beginPath()
+
+            ctx.fillRect(20,20,100,100)
+            ctx.closePath()
+
+            ctx.beginPath() //pot sa las si doar beginPath, automat inchide
+            ctx.fillStyle="#ff0000"
+            ctx.rect(120,20,100,100)
+            ctx.fill()
+            ctx.closePath()
+
+            ctx.beginPath()
+            ctx.arc(270,70,50,0,Math.PI,true)
+            ctx.fill()
+            ctx.closePath()
+
+            ctx.beginPath()
+            ctx.lineWidth=5
+            ctx.strokeStyle="rgb(0,180,0)"
+            ctx.strokeRect(320,20,100,100)
+
+            ctx.beginPath()
+            ctx.font="30px Comic Sans"
+            ctx.shadowBlur=5
+            ctx.shadowColor="gray"
+            ctx.shadowOffsetX=-20
+            ctx.shadowOffsetY=20
+            ctx.fillText("monomedia",50,200)
+
+            ctx.closePath()
+            ctx.shadowBlur=2
+            ctx.shadowColor="green"
+            ctx.shadowOffsetX=20
+            ctx.shadowOffsetY=20
+            ctx.fillText("seminar",50,300)
+
+            ctx.shadowOffsetX=0
+            ctx.shadowOffsetY=0
+
+            var x=100
+            var y=100
+            var dx=2
+            var dy=2
+            var r=50
+            var w = myCanvas.width;
+            var h = myCanvas.height;
+            var sensX=1
+            var sensY=1
+            function desenare(){
+                ctx.clearRect(0,0,w,h)
+                ctx.beginPath()
+                ctx.fillStyle="pink"
+                ctx.arc(x,y,r,0,2*Math.PI)
+                ctx.fill()
+                ctx.closePath();
+                x+=dx*sensX
+                y+=dy*sensY
+                if(x-r<0||x+r>=w)
+                {
+                    sensX=sensX*(-1)
+                    x+=sensX
+                }
+                if(y-r<0||y+r>=h)
+                    {
+                        sensY=sensY*(-1)
+                        y+=sensY
+                    }
+            }
+            //setInterval(desenare,10)
+            var interval=setInterval(desenare,10)
+            function fClick(){
+                console.log(interval)
+                if(interval===null)
+                    interval=setInterval(desenare,10)         
+                else{
+                    clearInterval(interval)
+                    interval=null
+                    console.log(interval)
+                }
+                    
+            }
+            myCanvas.onclick=fClick
+
+            document.getElementById("plusdx").addEventListener("click",function(){if(dx<10)dx++})
+            document.getElementById("minusdx").addEventListener("click",function(){if(dx>0)dx--})
+            document.getElementById("plusdy").addEventListener("click",function(){if(dy>0)dy++})
+            document.getElementById("minusdy").addEventListener("click",function(){if(dy<10)dy--})
+            
+        </script>
+    </body>
+</html>
