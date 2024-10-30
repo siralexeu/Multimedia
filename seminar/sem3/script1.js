@@ -7,7 +7,6 @@ document.onload = function(){
             var heading1 = document.getElementsByTagName("h1")[0];
             heading1.innerHTML = "SEMINAROS 4";
 
-            
             var r=Math.floor(Math.random()*200+56);
             var g=Math.floor(Math.random()*200+56);
             var b=Math.floor(Math.random()*200+56);
