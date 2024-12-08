@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Canvas Example</title>
+    </head>
+    <body>
+        <canvas style="border:2px solid black" width="700" height="700"></canvas>
+            </tr>
+        </table>
+        <script>
+            const myCanvas = document.getElementsByTagName("canvas")[0];
+            const ctx = myCanvas.getContext("2d");
+
+            var mouseX = 0;
+            var mouseY = 0;
+
+            myCanvas.addEventListener("mousemove", function(event){
+                var oldMouseX = event.offsetX;
+                var oldMouseY = event.offsetY;
+                console.log("Mouse at: " + mouseX + ", " + mouseY);
+
+                if(desen ==1)
+                {
+                    ctx.beginPath();
+                    ctx.moveTo(oldMouseX, oldMouseY, 10, 0, 2 * Math.PI); 
+                    ctx.fillStyle = "mediumorchid";
+                    ctx.fill();
+                    ctx.closePath();
+                }
+            });
+
+            ctx.lineWidth = 3;
+            myCanvas.addEventListener("mousedown", function(event){
+                ctx.beginPath();
+                //ctx.arc(mouseX, mouseY, 10, 0, 2 * Math.PI); 
+                //ctx.fillStyle = "mediumorchid";
+                ctx.lineTo(mouseX, mouseY);
+                ctx.strokeStyle = "mediumorchid";
+                ctx.fill();
+                ctx.closePath();
+            });
+            
+        </script>
+    </body>
+</html>

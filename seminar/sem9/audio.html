@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Procesare web audio api</title>
+</head>
+<body>
+<form>
+    <select id="selectie">
+        <option>sine</option>
+        <option>square</option>
+        <option>sawtooth</option>
+        <option>triangle</option>
+    </select>
+</form>
+<button id="play1" style="position:fixed; top:300px; left:20px; width:70px; height:20px; background-color:red;">P/S</button>
+<button id="freq1up" style="position:fixed; top:250px; left:20px; width:20px; height:20px; background-color:red;">+</button>
+<button id="freq1down" style="position:fixed; top:250px; left:60px; width:20px; height:20px; background-color:red;">-</button>
+
+<script>
+    var osc1,osc2;
+    var osc1type=document.getElementById("selectie").value;
+    var ac;
+    var gainNode;
+    var osc1frequency=500;
+    var osc1playing=false;
+
+document.getElementById("selectie").onchange=function(){
+    osc1.stop();
+    osc1type=document.getElementById("selectie").value.toString();
+    osc1play();
+    console.log(osc1type);
+}
+document.getElementById("play1").onclick=function(){
+    if(osc1playing){osc1.stop();osc2.stop();osc1playing=false;}
+    else{osc1play();osc1playing=true;}
+}
+document.getElementById("freq1up").onclick=function(){
+    osc1.frequency.value+=50;
+}
+document.getElementById("freq1down").onclick=function(){
+    osc1.frequency.value-=50;
+}
+
+function osc1play(){
+    ac=new AudioContext();
+    gainNode=ac.createGain();
+    gainNode.connect(ac.destination);
+    gainNode.gain.value=0.5;
+    osc1=ac.createOscillator();
+    osc1.connect(gainNode);
+    osc1.frequency.value=osc1frequency;
+    osc1.type=osc1type;
+    osc1.start();
+
+    osc2=ac.createOscillator();
+    osc2.connect(gainNode);
+    osc2.frequency.value=1500;
+    osc2.type=osc1type;
+    osc2.start();
+}
+</script>
+</body>
+
+</html>

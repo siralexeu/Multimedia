@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="rc"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forme Geometrice animat</title>
+    <style>
+        canvas{
+             border:1px solid black;
+             display: block;
+             margin:0 auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="600" height="600"></canvas>
+    <script>
+        const canvas=document.getElementById("canvas");
+        const ctx=canvas.getContext("2d");
+        let forme=[];
+        let cursor={x:null,y:null};
+        class Forma{
+            constructor(x,y,vitezaX,vitezaY,culoare,unghi,format){ //forma t, nu format
+                this.x=x;
+                this.y=y;
+                this.vitezaX=vitezaX;
+                this.vitezaY=vitezaY;
+                this.culoare=culoare;
+                this.unghi=unghi;
+                this.format=format;
+            }
+            deseneaza(){
+                ctx.save();
+                ctx.translate(this.x,this.y);
+                ctx.rotate(this.unghi);
+                ctx.fillStyle=this.culoare;
+                if(this.format===0){
+                    ctx.beginPath();
+                    ctx.arc(0,0,15,0,Math.PI*2);
+                    ctx.fill();
+                }else if(this.format===1){
+                    ctx.beginPath();
+                    ctx.rect(-15,-15,30,30);
+                    ctx.fill();
+                }else {
+                    ctx.beginPath();
+                    ctx.moveTo(-15,15);
+                    ctx.lineTo(15,15);
+                    ctx.lineTo(0,-15);
+                    ctx.closePath();
+                    ctx.fill();
+                }
+                ctx.restore();
+            }
+            actualizeaza(){
+                this.unghi +=0.02;
+                if(cursor.x!==null&&cursor.y!==null){
+                    const distX=cursor.x-this.x;
+                    const distY=cursor.y-this.y;
+                    const dist=Math.sqrt(distX*distX+distY*distY);
+
+                    if(dist<150){
+                        this.vitezaX+=distX*0.002;
+                        this.vitezaY+=distY*0.002;
+                    }
+                }
+                this.x+=this.vitezaX;
+                this.y+=this.vitezaY;
+                this.vitezaX*=0.98;
+                this.vitezaY*=0.98;
+                if(this.x <0 || this.x>canvas.width){this.vitezaX*=-1;}
+                if(this.y <0 || this.y>canvas.height){this.vitezaY*=-1;}
+            }
+        }
+        function genereazaForme(numar){
+            forme=[];
+            for(let i=0;i<numar;i++){
+                const x=Math.random()*canvas.width;
+                const y=Math.random()*canvas.height;
+                const vitezaX=(Math.random()-0.5)*2;
+                const vitezaY=(Math.random()-0.5)*2;
+                const culoare=`hsl(${Math.random()*360},50%,50%)`;
+                const unghi=Math.random()*Math.PI*2;
+                const format=Math.floor(Math.random()*3);
+                forme.push(new Forma(x,y,vitezaX,vitezaY,culoare,unghi,format));
+            }
+        }
+        function anima(){
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            forme.forEach(forma=>{
+                forma.actualizeaza();
+                forma.deseneaza();
+            });
+            requestAnimationFrame(anima);
+        }
+        canvas.addEventListener("mousemove",(e)=>{
+            const rect=canvas.getBoundingClientRect();
+            cursor.x=e.clientX-rect.left;
+            cursor.y=e.clientY-rect.top;
+        });
+        canvas.addEventListener("mouseleave",()=>{
+            cursor.x=null;
+            cursor.y=null;
+        });
+        genereazaForme(30);
+        anima();
+    </script>
+</body>
+</html>

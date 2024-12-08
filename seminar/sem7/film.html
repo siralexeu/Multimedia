@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Film</title>
+        <style type="text/css">
+            body{
+                background-color: black;}
+                canvas
+                {
+                    position: absolute;
+                    top: 50%;
+                    margin-top: -200px;
+                    left: 50%;
+                    margin-left: -200px;
+                }
+        </style>
+    </head>
+<body>
+    <button id="button1">Schimba sens</button>
+    <button id="button2">Porneste animatia</button>
+    <input id="slider1" type="range" min="20" max="200">
+    <canvas id="film" width="400" height="400"></canvas>
+    <script>
+        var model={numarImagini:44,
+            nrImaginiIncarcate:0,
+            index:0,
+            imagini:[],
+            pornit:true,
+            isReady:function()
+            {return this.nrImaginiIncarcate==this.numarImagini;},
+            sens:1,
+            actualizare:function(){
+                if(this.pornit) this.index+=this.sens;
+                if(this.index>=this.nrImaginiIncarcate) this.index=0;
+                if(this.index==-1) this.index=this.numarImagini-1;
+            }
+        }
+        //initializare model
+        for(var i=0;i<model.numarImagini;i++)
+        {
+            var imagePath="media/frame_0";
+            if(i<10) imagePath+="0";
+            imagePath+=i.toString()+".gif";
+
+            console.log(imagePath);
+            var image=document.createElement("img");
+
+            image.src=imagePath;
+            model.imagini[i]=image;
+            model.nrImaginiIncarcate++;
+        }
+
+        function desenare()
+        {
+            if(model.isReady())
+            {
+                document.getElementById("film").getContext("2d").drawImage(model.imagini[model.index],0,0);
+            }
+            if(model.pornit) requestAnimationFrame(desenare);
+        }
+        requestAnimationFrame(desenare);
+
+        var interval=setInterval(function(){model.actualizare()},50);
+
+        document.getElementById("button1").onclick=function(e){
+            model.sens*=-1;
+        }
+        document.getElementById("button2").onclick=function(e){
+            model.pornit=!model.pornit;
+            requestAnimationFrame(desenare);
+        }
+        document.getElementById("slider1").onchange=function(e){
+            clearInterval(interval);
+            interval=setInterval(function(){model.actualizare()},e.target.value);
+            console.log(e.target.value);
+        }
+    </script>
+</body>

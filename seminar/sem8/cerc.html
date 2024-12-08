@@ -1,0 +1,89 @@
+<html>
+    <style>
+        div{
+            position:absolute;
+            width:20px;
+            height:20px;
+            border-radius: 20px;
+            background: red;
+            animation-duration: 4s;
+            animation-iteration-count: infinite;
+            animation-direction:alternate;
+            animation-timing-function:ease-in-out;
+        }
+        #w1{
+            animation-name:s1;
+            animation-delay:0s;
+        }
+        #w2{
+            animation-name:s2;
+            animation-delay:0.5s;
+        }
+        #w3{
+            animation-name:s3;
+            animation-delay:1s;
+        }
+        #w4{
+            animation-name:s4;
+            animation-delay:1.5s;
+        }
+        #w5{
+            animation-name:s5;
+            animation-delay:2s;
+        }
+        #w6{
+            animation-name:s6;
+            animation-delay:2.5s;
+        }
+        #w7{
+            animation-name:s7;
+            animation-delay:3s;
+        }
+        #w8{
+            animation-name:s8;
+            animation-delay:3.5s;
+        }
+        @keyframes s1{
+            from {top:100px;left:0px; background-color: red;}
+            to {top:100px;left:200px; background-color: blue;}
+        }
+        @keyframes s2{
+            from {top:62px;left:8px; background-color: green;}
+            to {top:130px;left:192px; background-color: yellow;}
+        }
+        @keyframes s3{
+            from {top:29px;left:29px; background-color: black;}
+            to {top:171px;left:171px; background-color: violet;}
+        }
+        @keyframes s4{
+            from {top:8px;left:62px; background-color: yellow;}
+            to {top:192px;left:138px; background-color: pink;}
+        }
+        @keyframes s5{
+            from {top:0px;left:100px; background-color: indigo;}
+            to {top:200px;left:100px; background-color: goldenrod;}
+        }
+        @keyframes s6{
+            from {top:8px;left:138px; background-color: brown;}
+            to {top:192px;left:62px; background-color: cyan;}
+        }
+        @keyframes s7{
+            from {top:29px;left:171px; background-color: fuchsia;}
+            to {top:171px;left:29px; background-color: lawngreen;}
+        }
+        @keyframes s8{
+            from {top:62px;left:192px; background-color: mediumspringgreen;}
+            to {top:130px;left:8px; background-color: orchid;}
+        }
+    </style>
+    <body>
+        <div id="w1"></div>
+        <div id="w2"></div>
+        <div id="w3"></div>
+        <div id="w4"></div>
+        <div id="w5"></div>
+        <div id="w6"></div>
+        <div id="w7"></div>
+        <div id="w8"></div>
+    </body>
+</html>

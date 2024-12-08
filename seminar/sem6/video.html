@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <input id="frecventa" type="text" value="50"> </input>
+
+    <h2> Video sursa </h2>
+<div>
+    <video id="video1"  controls width="320" autoplay style="float:left; ">
+        <source src="movie.mp4" type="video/mp4">
+    </video>
+
+    <canvas  id="canvas1" width="320" height="240" style="border:1px solid #d3d3d3">
+     </canvas>
+</div>
+<input type="button" id="crestetimp" value="Creste timp"></input>
+<input type="button" id="scadetimp" value="Scade timp"></input>
+<script>
+    var v1=document.getElementById("video1");
+    var c1=document.getElementById("canvas1");
+    var context=c1.getContext("2d");
+    var i;
+    var timp=50;
+    var W=canvas1.width, H=canvas1.height;
+    console.log(W+" "+H);
+    var xc=100, yc=100, rc=40, dx=2, dy=3, sensx=1, sensy=1;
+    v1.addEventListener("play",function () {
+        console.log(document.getElementById("frecventa"));
+        i=setInterval(prelucrari ,document.getElementById("frecventa").value)
+    },false);
+    function prelucrari()
+        { context.drawImage(v1,0,0,320,240)
+            context.font='20px serif';
+            context.fillText("Clip Video "+Math.round(v1.currentTime*10)/10
+            +" / "+ Math.round(v1.duration*10)/10
+            ,10,20);
+            var pixels=context.getImageData(0,0,W,H);
+            var vector=pixels.data;
+            xc+=dx*sensx;yc+=dy*sensy;
+            if (xc+rc>=W||xc-rc<0) {sensx*=-1;xc+=dx*sensx}
+            if (yc+rc>=H||yc-rc<0) {sensy*=-1;yc+=dy*sensy}
+            for (x=0;x<W;x++)
+                for (y=0;y<H;y++)
+                {    var index=(y*W+x)*4;
+                    if (y<30){vector[index+3]=200}; 
+                    //distanta de la punctul x,y la punctul xc,yc - 
+                    //radical din suma patratelor diferentelor
+                    var distanta= Math.sqrt((x-xc)*(x-xc)+(y-yc)*(y-yc));
+                    if (distanta>rc){
+                    media=(vector[index]+vector[index+1]+vector[index+2])/3;
+                    vector[index]=vector[index+1]=vector[index+2]=media;
+                    } else 
+                    {    vector[index+3]=180+20*Math.random();
+                    }
+                }
+            context.putImageData(pixels,0,0);       
+        }
+    v1.addEventListener("ended", function (){clearInterval(i) })
+    v1.addEventListener("pause", function (){clearInterval(i)})
+    document.getElementById("crestetimp").addEventListener(
+        "click", ()=>
+        {
+            console.log(timp);
+            timp+=1;
+            clearInterval(i);
+            i=setInterval(prelucrari ,timp);
+        }
+    )
+    document.getElementById("scadetimp").addEventListener(
+        "click", ()=>
+        {
+            if (timp > 1) {
+                console.log(timp);
+                timp -= 1;
+                clearInterval(i);
+                i=setInterval(prelucrari ,timp);
+            }
+        }
+    )
+
+</script>
+
+</body>
+
+</html>
