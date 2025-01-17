@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vizualizare Date</title>
+    <link rel="stylesheet" href="3_1087_CAVALER_ALEXANDRU_CRISTIAN.css">
+</head>
+<body>
+        <h1>Vizualizare Date</h1>
+    <div id="controale">
+        <label for="indicator">Indicator:</label>
+        <select id="indicator">
+            <option value="PIB">PIB pe cap de locuitor</option>
+            <option value="SV">Speranta de viata</option>
+            <option value="POP">Populatie</option>
+        </select>
+        
+        <label for="tara">Tara:</label>
+        <select id="tara">
+            <option value="">Selecteaza tara</option>
+        </select>
+ 
+        <button id="graficSVG">Afiseaza Grafic SVG</button>
+        <button id="bubbleChart1">Afiseaza Bubble Chart</button>
+        <button id="bubbleChart2">Animatie Bubble Chart</button>
+        <button id="tabelDate">Afiseaza Tabel</button>
+    </div>
+    <div id="container1" style="display: flex; margin-top: 10px;">
+        <div id="svgAfisare" style="width: 840px; height: 430px; border: 1px solid #CCCCCC;">
+            <svg id="svg" width="840" height="400"></svg>
+        </div>
+        <div id="canvasAfisare" style="width: 840px; height: 430px; border: 1px solid #CCCCCC;">
+            <canvas id="canvas" width="840" height="400"></canvas>
+        </div>  
+    </div>
+    <div id="container2" style="display: flex;">
+        <div id="tabelAfisare" style="width: 841px; height: 430px;">
+            <table id="tabel" width="840" height="400"></table>
+        </div>
+        <div id="canvasAnimatie" style="width: 840px; height: 430px; border: 1px solid #CCCCCC;">
+            <canvas id="canvas2" width="840" height="400"></canvas>
+        </div>     
+    </div>
+
+    <div id="tooltip"></div>
+      
+    <script src="3_1087_CAVALER_ALEXANDRU_CRISTIAN.js"></script>
+</body>
+</html>

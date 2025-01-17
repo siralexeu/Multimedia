@@ -1,0 +1,67 @@
+body {
+    /* background-color: #1f1f1f; */
+    color: #003366;
+}
+
+#tooltip {
+    position: absolute;
+    display: none;
+    background: black;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+#container1, #container2 {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    color: black;
+    font-family: Arial, sans-serif;
+}
+
+label {
+    font-size: 18px;
+}
+select {
+    border-radius: 5px;
+    padding: 5px 8px;
+    font-size: 13px;
+}
+
+button {
+    background-color: #0f6cbf;
+    color: white;
+    padding: 7px 15px;
+    border-radius: 5px;
+    border-color: #000;
+    font-size: 13px;
+}
+button:hover {
+    background-color: #1E40AF; /
+}
+
+#indicator option {
+    background-color: #FFFACD;
+}
+#tara option {
+    background-color: #FFFACD;
+}
+
+table {
+    width: 100%;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th,td {
+    padding: 8px;
+    text-align: center;
+    border: 1px solid #CCCCCC;
+}
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
