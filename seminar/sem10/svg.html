@@ -1,121 +1,184 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title> SVG Editor</title>
+    <title>SVG Editor</title>
     <style>
-        html,body{
-            width:100%;
-            height:100%;
-            margin:0px;
-            padding: 0px;
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
         }
         svg {
-            width:100%;
-            height:100%;
-            margin:0px;
-            padding:0px;
+            width: 100%;
+            height: 100%;
             background-color: #eaeaea;
-            cursor:crosshair;
+            cursor: crosshair;
         }
         h1 {
-            width:100%;
             background-color: lightblue;
-            margin-top:0px;
-            margin-bottom:0px;
-            padding:0px;
+            margin: 0;
+            padding: 0;
         }
-        svg rect{
-            fill:gray;
+        svg rect, svg ellipse, svg polygon {
+            fill: gray;
             fill-opacity: 0.2;
-            stroke:navy;
+            stroke: navy;
             stroke-opacity: 0.2;
         }
-        svg #selectie{
-            fill:transparent;
-            stroke:green;
-            stroke-opacity:0.5;
-            stroke-dasharray: 3,3;
+        svg #selectieDreptunghi, svg #selectieElipsa, svg #selectieRomb {
+            fill: transparent;
+            stroke: green;
+            stroke-opacity: 0.5;
+            stroke-dasharray: 3, 3;
         }
-        svg .selectat{
-            fill:green;
+        svg .selectat {
+            fill: green;
         }
     </style>
 </head>
-    <body>
-        <h1> Editor SVG</h1>
-        <button id="dreptunghi">Dreptunghi</button>
-        <button id="elipsa">Elipsa</button>
-        <button id="romb">Romb</button>
-        <svg id="editor">
-            <g id="elemente"></g>
-            <rect id="selectie" width="0" height="0"
-            style="display:none;"></rect>
-        </svg>
-        <script>
-            var MOUSE_LEFT=0,MOUSE_RIGHT=2,KEY_DEL=46;
-            var x1=0,y1=0,x2=0,y2=0;
-            var elementSelectat=null;
-            var figura="dreptunghi";
+<body>
+    <h1>Editor SVG</h1>
+    <button id="dreptunghi">Dreptunghi</button>
+    <button id="elipsa">Elipsa</button>
+    <button id="romb">Romb</button>
+    <input type="color" name="" id="culoare">
+    <svg id="editor">
+        <g id="elemente"></g>
+        <rect id="selectieDreptunghi" width="0" height="0" style="display:none;"></rect>
+        <ellipse id="selectieElipsa" cx="0" cy="0" rx="0" ry="0" style="display:none"></ellipse>
+        <polygon id="selectieRomb" points="0,0 0,0 0,0 0,0" style="display:none"></polygon>
+    </svg>
+    <script>
+        var MOUSE_LEFT = 0, MOUSE_RIGHT = 2, KEY_DEL = 46;
+        var x1 = 0, y1 = 0, x2 = 0, y2 = 0;
+        var elementSelectat = null;
+        var figura = "dreptunghi";
 
-            var editor=document.getElementById("editor");
-            var selectie=document.getElementById("selectie");
-            var elemente=document.getElementById("elemente");
-            function setareCoordonateDreptunghi(obiect,x1,y1,x2,y2)
-            {
-                obiect.setAttributeNS(null,"x",Math.min(x1,x2));
-                obiect.setAttributeNS(null,"y",Math.min(y1,y2));
-                obiect.setAttributeNS(null, "width", Math.max(x2, x1) - Math.min(x2, x1));
-                obiect.setAttributeNS(null, "height", Math.max(y2, y1) - Math.min(y2, y1));
+        var editor = document.getElementById("editor");
+        var elemente = document.getElementById("elemente");
+        var selectieDreptunghi=document.getElementById("selectieDreptunghi");
+        var selectieElipsa=document.getElementById("selectieElipsa");
+        var selectieRomb=document.getElementById("selectieRomb");
+        var culoare = document.getElementById("culoare");
+
+        // Schimbă figura selectată
+        document.getElementById("dreptunghi").onclick = () => figura = "dreptunghi";
+        document.getElementById("elipsa").onclick = () => figura = "elipsa";
+        document.getElementById("romb").onclick = () => figura = "romb";
+        culoare.onchange = (e) => { 
+            if(elementSelectat) 
+                elementSelectat.style.fill = e.target.value;
             }
-            editor.onmousedown=function(e)
-            {
-                if(e.button==MOUSE_LEFT)
+
+        function setareCoordonateDreptunghi(obiect, x1, y1, x2, y2) 
+        {
+            obiect.setAttributeNS(null, "x", Math.min(x1, x2));
+            obiect.setAttributeNS(null, "y", Math.min(y1, y2));
+            obiect.setAttributeNS(null, "width", Math.abs(x2 - x1));
+            obiect.setAttributeNS(null, "height", Math.abs(y2 - y1));
+        }
+
+        function setareCoordonateElipsa(obiect, x1, y1, x2, y2)
+        {
+            obiect.setAttributeNS(null, "cx", (x1+x2)/2);
+            obiect.setAttributeNS(null, "cy", (y1+y2)/2);
+            obiect.setAttributeNS(null, "rx", Math.abs(x1-x2)/2);
+            obiect.setAttributeNS(null, "ry", Math.abs(y1-y2)/2);
+        }
+
+        function setareCoordonateRomb(obiect, x1, y1, x2, y2)
+        {
+            obiect.setAttributeNS(null, "points", 
+            `${(x1+x2)/2},${y1}
+            ${(x2)},${(y1+y2)/2}
+            ${(x1+x2)/2},${y2}
+            ${x1},${(y1+y2)/2}`);
+            console.log(obiect.getAttributeNS(null, "points"));
+        }
+
+        editor.onmousedown = function(e) {
+            if (e.button == MOUSE_LEFT) {
+                x1 = e.pageX - this.getBoundingClientRect().left;
+                y1 = e.pageY - this.getBoundingClientRect().top;
+                switch(figura)
                 {
-                    x1=e.pageX-this.getBoundingClientRect().left;
-                    y1=e.pageY-this.getBoundingClientRect().top;
-                    setareCoordonateDreptunghi(selectie,x1,y1,x1,y1);
-                    selectie.style.display="block";
+                case "dreptunghi": {
+                    setareCoordonateDreptunghi(selectieDreptunghi,x1,y1,x2,y2);
+                    selectieDreptunghi.style.display="block"; 
+                    break;
                 }
-                editor.onmouseup=function(e)
-                {
-                    if(e.button==MOUSE_LEFT)
+                case "elipsa": {
+                    setareCoordonateElipsa(selectieElipsa, x1, y1, x2, y2);
+                    selectieElipsa.style.display = "block";
+                    break;
+                }
+                case "romb":
                     {
-                        selectie.style.display="none";
-                        elementNou=document.createElementNS("http://www.w3.org/2000/svg","rect");
-                        setareCoordonateDreptunghi(elementNou,x1,y1,x2,y2);
-                        elemente.appendChild(elementNou);
-                        elementNou.onmousedown=function(e)
-                        {
-                            if(e.button==MOUSE_RIGHT)
-                            {
-                                var elementeCopil=document.querySelectorAll("#elemente *");
-                                elementeCopil.forEach(el=>el.classList.remove("selectat"));
-                                e.target.classList.add("selectat");
-                                elementSelectat=e.target;
-                            }
-                        }
+                        setareCoordonateRomb(selectieRomb, x1, y1, x2, y2);
+                        selectieRomb.style.display = "block";
+                        break;
                     }
-                }
-                editor.onmousemove=function(e)
-                {
-                    x2=e.pageX-this.getBoundingClientRect().left;
-                    y2=e.pageY-this.getBoundingClientRect().top;
-                    setareCoordonateDreptunghi(selectie,x1,y1,x2,y2);
-                }
-                document.onkeydown=function(e)
-                {
-                    if (e.keyCode == KEY_DEL && elementSelectat) {
-                    elemente.removeChild(elementSelectat);
-                    elementSelectat = null;
-                    }
-                }
-                editor.oncontextmenu=function(e)
-                {
-                    e.preventDefault();
-                    //return false;
+                default:
+                    break;
                 }
             }
-        </script>
-    </body>
+        }
 
+        editor.onmouseup = function(e) 
+        {
+            if (e.button==MOUSE_LEFT){
+                switch (figura) {
+                    case "dreptunghi":
+                    selectieDreptunghi.style.display="none";
+                    elementNou=document.createElementNS("http://www.w3.org/2000/svg","rect");
+                    setareCoordonateDreptunghi(elementNou, x1, y1, x2, y2);
+                        break;
+                    case "elipsa":
+                    selectieElipsa.style.display="none";
+                    elementNou=document.createElementNS("http://www.w3.org/2000/svg","ellipse");
+                    setareCoordonateElipsa(elementNou, x1, y1, x2, y2);
+                        break;
+                    case "romb":
+                    selectieRomb.style.display="none";
+                    elementNou=document.createElementNS("http://www.w3.org/2000/svg","polygon");
+                    setareCoordonateRomb(elementNou, x1, y1, x2, y2);
+                    default:
+                        break;
+                }
+                elemente.appendChild(elementNou);
+                elementNou.onmousedown=function (e)
+                {
+                    if (e.button==MOUSE_RIGHT)
+                    {
+                        var elementeCopii=document.querySelectorAll("#elemente *");
+                        elementeCopii.forEach(el=>el.classList.remove("selectat"));
+                        e.target.classList.add("selectat");
+                        elementSelectat=e.target;
+                    }
+                }
+            }   
+        }
+
+        editor.onmousemove = function(e) {
+            x2 = e.pageX - this.getBoundingClientRect().left;
+            y2 = e.pageY - this.getBoundingClientRect().top;
+            setareCoordonateDreptunghi(selectieDreptunghi, x1, y1, x2, y2);
+            setareCoordonateElipsa(selectieElipsa, x1, y1, x2, y2);
+            setareCoordonateRomb(selectieRomb, x1, y1, x2, y2);
+        }
+
+        document.onkeydown = function(e) {
+            if (e.keyCode == KEY_DEL && elementSelectat) {
+                elemente.removeChild(elementSelectat);
+                elementSelectat = null;
+            }
+        }
+
+        editor.oncontextmenu = function(e) {
+            e.preventDefault();
+        }
+        
+    </script>
+</body>
 </html>
