@@ -1,5 +1,6 @@
 toate seminariile:
 sem 1:https://siralexeu.github.io/Multimedia/seminar/sem01/pagina1.html
+      https://siralexeu.github.io/Multimedia/seminar/sem01/tabel.html
       https://siralexeu.github.io/Multimedia/seminar/sem01/tabelimg.html
 sem 2:https://siralexeu.github.io/Multimedia/
 sem 3:https://siralexeu.github.io/Multimedia/
