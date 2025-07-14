@@ -28,15 +28,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      - name: Build with Jekyll
-        uses: actions/jekyll-build-pages@v1
-        with:
-          source: ./
-          destination: ./_site
+
+      - name: Copy files to _site (ignore readme.md)
+        run: |
+          mkdir -p _site
+          rsync -av --exclude="readme.md" 3_1087_CAVALER_ALEXANDRU_CRISTIAN/ _site/
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site
 
   # Deployment job
   deploy:
