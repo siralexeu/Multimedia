@@ -1,3 +1,4 @@
+# ENUNT:
 # 3. Vizualizare date
 Descriere: Construirea unei aplicații pentru vizualizarea unui set de date. Setul de date care cuprinde informații despre indicatorii PIB pe cap de locuitor, Speranță de Viață și Populație pentru țările Uniunii Europene în perioada 2000-2018 se va descărca de la adresa http://ase.softmentor.ro/eurostat.json (și va fi salvat în folder-ul media).
 
@@ -17,3 +18,7 @@ me=2020&geo=RO&geo=BG
 1p - animație bubble chart (afișare bubble chart succesiv pentru toți anii)
 
 2p - afișare sub formă de tabel a datelor disponibile pentru un an selectat de către utilizator (tarile pe linii și cei trei indicatori pe coloană); fiecare celulă va primi o culoare (de la roșu la verde) în funcție de distanța față de media uniunii
+
+
+# Link pages: https://siralexeu.github.io/Multimedia/3_1087_CAVALER_ALEXANDRU_CRISTIAN/3_1087_CAVALER_ALEXANDRU_CRISTIAN.html
+
