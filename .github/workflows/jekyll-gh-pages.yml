@@ -22,10 +22,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Copy files to _site (ignore readme.md)
+      - name: Copy files to _site
         run: |
           mkdir -p _site
-          rsync -av --exclude="readme.md" 3_1087_CAVALER_ALEXANDRU_CRISTIAN/ _site/
+          cp -r 3_1087_CAVALER_ALEXANDRU_CRISTIAN/* _site/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
